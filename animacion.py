@@ -1,61 +1,69 @@
 # importamos la libreria pygame
+
 import pygame
 import sys
 
-# inicializamos los modulos de la librería
+# Inicializar pygame
 pygame.init()
 
-# Establecer dimensiones de la ventana
-ventana = pygame.display.set_mode((450, 400))
+# Ventana
+ANCHO = 400
+ALTO = 400
 
-# establecer titulo de la ventana
-pygame.display.set_caption("Rebotes rectángulo")
+ventana = pygame.display.set_mode((ANCHO, ALTO))
+pygame.display.set_caption("Rebotes en todas las esquinas")
 
-# definición colores
-rojo = (255,0,0)
-azul = (0,0,255)
+# Colores
+ROJO = (255, 0, 0)
+AZUL = (0, 0, 255)
 
-# variable de movimiento
-YY = 100
-MOVIMIENTO_Y = 3
+# Posición inicial
+x = 100
+y = 100
+
+# Tamaño del rectángulo
+ancho_rect = 80
+alto_rect = 80
 
 # Velocidad
-YY = 100
-MOVIMIENTO_Y = 3
+mov_x = 5
+mov_y = 8
 
-# Objeto para la gestión del tiempo
+# Reloj
 clock = pygame.time.Clock()
 
-
-# bucle principal del juego
+# Bucle principal
 while True:
-    # Maximo de fotogramas por segundo
-    clock.tick(70)
 
+    clock.tick(60)
+
+    # Eventos
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            pygame.quit()
             sys.exit()
 
-    ventana.fill(azul)
+    # Fondo
+    ventana.fill(AZUL)
 
-    # movimiento del rectángulo horizontl
-    if XX >= 320:
-        XX = 320
-        MOVIMIENTO = -MOVIMIENTO
-    elif XX <= 0:
-        XX = 0
-    MOVIMIENTO = -MOVIMIENTO
+    # Movimiento
+    x += mov_x
+    y += mov_y
 
-    # movimiento del rectangulo vertical
-    if YY >= 320:
-        YY = 320
-    MOVIMIENTO_Y = -MOVIMIENTO_Y
-    elif YY <= 0:
-    YY = 0
-    MOVIMIENTO_Y = -MOVIMIENTO_Y
+    # Rebote izquierda/derecha
+    if x <= 0 or x >= ANCHO - ancho_rect:
+        mov_x *= -1
 
-    # dibujar rectangulo en ventana
-    pygame.draw.rect(ventana, rojo, (XX, YY, 80, 80))
+    # Rebote arriba/abajo
+    if y <= 0 or y >= ALTO - alto_rect:
+        mov_y *= -1
 
-    # actualizar visualización de la ventana
+    # Dibujar rectángulo
+    pygame.draw.rect(
+        ventana,
+        ROJO,
+        (x, y, ancho_rect, alto_rect)
+    )
+
+    # Actualizar pantalla
     pygame.display.flip()
